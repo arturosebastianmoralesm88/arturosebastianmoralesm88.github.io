@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arturo Morales — Plant Genetic Resources & Phenotyping</title>
+<meta name="description" content="Agronomist MSc at INIA Carillanca. Plant genetic resources conservation, wheat phenotyping, and field tools development.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #f5f0e8;
+  --ink: #1a1a18;
+  --moss: #3d5a3e;
+  --wheat: #c8a96e;
+  --rust: #8b4513;
+  --fog: #e8e4dc;
+  --pale: #f9f7f3;
+  --serif: 'Playfair Display', Georgia, serif;
+  --mono: 'DM Mono', monospace;
+  --sans: 'DM Sans', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 48px;
+  background: rgba(245,240,232,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(26,26,24,0.08);
+}
+.nav-logo {
+  font-family: var(--serif); font-size: 17px; font-weight: 600;
+  color: var(--ink); text-decoration: none; letter-spacing: 0.01em;
+}
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a {
+  font-family: var(--mono); font-size: 12px; font-weight: 400;
+  color: var(--ink); text-decoration: none; letter-spacing: 0.08em;
+  text-transform: uppercase; opacity: 0.6;
+  transition: opacity .2s;
+}
+.nav-links a:hover { opacity: 1; }
+.lang-toggle {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  background: none; border: 1px solid rgba(26,26,24,0.25);
+  border-radius: 2px; padding: 4px 10px; cursor: pointer;
+  color: var(--ink); transition: all .2s;
+}
+.lang-toggle:hover { background: var(--ink); color: var(--cream); }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-top: 80px;
+}
+.hero-text {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 64px 80px 48px;
+}
+.hero-tag {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--moss); margin-bottom: 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-tag::before {
+  content: ''; display: block; width: 32px; height: 1px; background: var(--moss);
+}
+h1 {
+  font-family: var(--serif); font-size: clamp(42px, 5vw, 68px);
+  font-weight: 400; line-height: 1.1; margin-bottom: 8px;
+  color: var(--ink);
+}
+h1 em { font-style: italic; color: var(--moss); }
+.hero-subtitle {
+  font-family: var(--serif); font-size: 18px; font-style: italic;
+  color: rgba(26,26,24,0.5); margin-bottom: 36px; font-weight: 400;
+}
+.hero-desc {
+  font-size: 15px; color: rgba(26,26,24,0.7); max-width: 420px;
+  margin-bottom: 48px; line-height: 1.8;
+}
+.hero-stats {
+  display: flex; gap: 40px; margin-bottom: 48px;
+}
+.stat-num {
+  font-family: var(--serif); font-size: 36px; font-weight: 600;
+  color: var(--moss); line-height: 1;
+}
+.stat-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: rgba(26,26,24,0.5); margin-top: 4px;
+}
+.hero-cta {
+  display: flex; gap: 16px; align-items: center;
+}
+.btn-primary {
+  background: var(--moss); color: var(--cream);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 14px 28px; border: none;
+  text-decoration: none; transition: background .2s;
+  display: inline-block;
+}
+.btn-primary:hover { background: var(--ink); }
+.btn-secondary {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ink); text-decoration: none;
+  opacity: 0.5; transition: opacity .2s;
+}
+.btn-secondary:hover { opacity: 1; }
+
+.hero-visual {
+  position: relative; overflow: hidden;
+  background: var(--fog);
+}
+.hero-img-grid {
+  display: grid; grid-template-rows: 1fr 1fr; height: 100%;
+}
+.hero-img-top {
+  position: relative; overflow: hidden;
+}
+.hero-img-top img, .hero-img-bottom img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.hero-img-top:hover img, .hero-img-bottom:hover img { transform: scale(1.04); }
+.hero-img-bottom { display: grid; grid-template-columns: 1fr 1fr; }
+.hero-img-bottom > div { position: relative; overflow: hidden; }
+.hero-img-caption {
+  position: absolute; bottom: 12px; left: 12px;
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: rgba(255,255,255,0.8);
+  background: rgba(0,0,0,0.3); padding: 4px 8px; backdrop-filter: blur(4px);
+}
+
+/* ── SECTIONS ── */
+section { padding: 100px 48px; }
+
+.section-header {
+  display: flex; align-items: baseline; gap: 20px; margin-bottom: 64px;
+}
+.section-num {
+  font-family: var(--mono); font-size: 11px; color: var(--wheat);
+  letter-spacing: 0.1em;
+}
+.section-title {
+  font-family: var(--serif); font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400; color: var(--ink);
+}
+
+/* ── ABOUT ── */
+#about {
+  background: var(--pale);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.about-text p {
+  font-size: 15px; line-height: 1.9; color: rgba(26,26,24,0.75);
+  margin-bottom: 20px;
+}
+.about-text p:last-child { margin-bottom: 0; }
+.about-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+.tag {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 6px 14px;
+  border: 1px solid rgba(26,26,24,0.2); color: rgba(26,26,24,0.6);
+}
+.about-photo { position: relative; }
+.about-photo img {
+  width: 100%; aspect-ratio: 3/4; object-fit: cover; object-position: top;
+}
+.about-photo-label {
+  position: absolute; bottom: -1px; right: -1px;
+  background: var(--moss); color: var(--cream);
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+  padding: 10px 16px; text-transform: uppercase;
+}
+
+/* ── PUBLICATIONS ── */
+#publications { background: var(--cream); }
+.pub-list { display: flex; flex-direction: column; gap: 0; }
+.pub-item {
+  display: grid; grid-template-columns: 60px 1fr auto;
+  gap: 24px; align-items: start;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(26,26,24,0.1);
+  transition: background .15s;
+}
+.pub-item:first-child { border-top: 1px solid rgba(26,26,24,0.1); }
+.pub-year {
+  font-family: var(--mono); font-size: 12px; color: var(--wheat);
+  padding-top: 3px; letter-spacing: 0.05em;
+}
+.pub-content {}
+.pub-title {
+  font-family: var(--serif); font-size: 16px; font-weight: 600;
+  color: var(--ink); line-height: 1.4; margin-bottom: 6px;
+}
+.pub-authors {
+  font-size: 13px; color: rgba(26,26,24,0.5); margin-bottom: 4px;
+  font-style: italic;
+}
+.pub-journal {
+  font-family: var(--mono); font-size: 11px; color: var(--moss);
+  letter-spacing: 0.05em;
+}
+.pub-type {
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 4px 10px;
+  border: 1px solid rgba(26,26,24,0.15); color: rgba(26,26,24,0.4);
+  white-space: nowrap; align-self: start; margin-top: 3px;
+}
+.pub-type.isi { border-color: var(--moss); color: var(--moss); }
+.pub-link {
+  display: block; margin-top: 8px;
+  font-family: var(--mono); font-size: 10px; color: var(--wheat);
+  text-decoration: none; letter-spacing: 0.05em;
+  transition: color .15s;
+}
+.pub-link:hover { color: var(--rust); }
+
+/* ── TOOLS ── */
+#tools { background: var(--ink); color: var(--cream); }
+#tools .section-title { color: var(--cream); }
+#tools .section-num { color: var(--wheat); }
+.tools-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+}
+.tool-card {
+  background: rgba(255,255,255,0.04);
+  padding: 48px 40px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: background .2s;
+  position: relative; overflow: hidden;
+}
+.tool-card:hover { background: rgba(255,255,255,0.07); }
+.tool-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 2px; background: var(--moss);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .3s ease;
+}
+.tool-card:hover::before { transform: scaleX(1); }
+.tool-num {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.25); margin-bottom: 20px;
+}
+.tool-icon { font-size: 32px; margin-bottom: 16px; }
+.tool-name {
+  font-family: var(--serif); font-size: 22px; font-weight: 600;
+  color: var(--cream); margin-bottom: 12px; line-height: 1.2;
+}
+.tool-desc {
+  font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.7;
+  margin-bottom: 28px;
+}
+.tool-tech {
+  display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 28px;
+}
+.tech-pill {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em;
+  padding: 3px 10px; border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.4);
+}
+.tool-link {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--wheat);
+  text-decoration: none; display: flex; align-items: center; gap: 8px;
+  transition: gap .2s;
+}
+.tool-link:hover { gap: 14px; }
+.tool-link::after { content: '→'; }
+
+/* ── RESEARCH ── */
+#research { background: var(--fog); }
+.research-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.research-card {
+  background: var(--cream); padding: 36px 28px;
+  border-top: 3px solid var(--moss);
+}
+.research-icon {
+  font-size: 28px; margin-bottom: 16px;
+}
+.research-title {
+  font-family: var(--serif); font-size: 18px; font-weight: 600;
+  color: var(--ink); margin-bottom: 12px; line-height: 1.3;
+}
+.research-desc {
+  font-size: 14px; color: rgba(26,26,24,0.65); line-height: 1.7;
+}
+
+/* ── CONTACT ── */
+#contact {
+  background: var(--cream);
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.contact-text .section-title { margin-bottom: 24px; }
+.contact-text p {
+  font-size: 15px; color: rgba(26,26,24,0.65); line-height: 1.8; margin-bottom: 40px;
+}
+.contact-links { display: flex; flex-direction: column; gap: 16px; }
+.contact-link {
+  display: flex; align-items: center; gap: 16px;
+  font-family: var(--mono); font-size: 13px; color: var(--ink);
+  text-decoration: none; padding: 16px 20px;
+  border: 1px solid rgba(26,26,24,0.15);
+  transition: all .2s;
+}
+.contact-link:hover {
+  background: var(--moss); color: var(--cream);
+  border-color: var(--moss);
+}
+.contact-link-icon { font-size: 18px; }
+.contact-quote {
+  font-family: var(--serif); font-size: clamp(20px, 2.5vw, 32px);
+  font-style: italic; color: rgba(26,26,24,0.25); line-height: 1.5;
+  position: relative; padding-left: 32px;
+}
+.contact-quote::before {
+  content: '"'; position: absolute; left: 0; top: -8px;
+  font-size: 80px; color: var(--fog); font-family: var(--serif);
+  line-height: 1; z-index: 0;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: var(--ink); color: rgba(255,255,255,0.35);
+  padding: 32px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+.fade-up:nth-child(1) { animation-delay: 0.1s; }
+.fade-up:nth-child(2) { animation-delay: 0.2s; }
+.fade-up:nth-child(3) { animation-delay: 0.3s; }
+.fade-up:nth-child(4) { animation-delay: 0.4s; }
+.fade-up:nth-child(5) { animation-delay: 0.5s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  #hero { grid-template-columns: 1fr; }
+  .hero-visual { height: 50vw; }
+  .hero-text { padding: 48px 24px; }
+  #about, #contact { grid-template-columns: 1fr; padding: 60px 24px; }
+  #publications, #tools, #research { padding: 60px 24px; }
+  .tools-grid { grid-template-columns: 1fr; }
+  .research-grid { grid-template-columns: 1fr; }
+  section { padding: 60px 24px; }
+  footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">Arturo Morales M.</a>
+  <ul class="nav-links">
+    <li><a href="#about" data-en="About" data-es="Sobre mí">About</a></li>
+    <li><a href="#publications" data-en="Publications" data-es="Publicaciones">Publications</a></li>
+    <li><a href="#tools" data-en="Tools" data-es="Herramientas">Tools</a></li>
+    <li><a href="#research" data-en="Research" data-es="Investigación">Research</a></li>
+    <li><a href="#contact" data-en="Contact" data-es="Contacto">Contact</a></li>
+  </ul>
+  <button class="lang-toggle" onclick="toggleLang()">ES</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-text">
+    <div class="hero-tag fade-up" data-en="Plant Genetic Resources · INIA Carillanca · Temuco, Chile" data-es="Recursos Genéticos Vegetales · INIA Carillanca · Temuco, Chile">
+      Plant Genetic Resources · INIA Carillanca · Temuco, Chile
+    </div>
+    <h1 class="fade-up">Arturo<br><em>Morales</em><br>Morales</h1>
+    <p class="hero-subtitle fade-up" data-en="Agronomist MSc · Technical Manager, Active Germplasm Bank" data-es="Ingeniero Agrónomo MSc · Jefe Técnico, Banco de Germoplasma Activo">
+      Agronomist MSc · Technical Manager, Active Germplasm Bank
+    </p>
+    <p class="hero-desc fade-up" data-en="Conservation and characterization of plant genetic resources. Automated phenotyping of wheat spikes using computer vision. Development of field tools for agronomic research." data-es="Conservación y caracterización de recursos genéticos vegetales. Fenotipado automatizado de espigas de trigo mediante visión computacional. Desarrollo de herramientas para investigación agronómica.">
+      Conservation and characterization of plant genetic resources. Automated phenotyping of wheat spikes using computer vision. Development of field tools for agronomic research.
+    </p>
+    <div class="hero-stats fade-up">
+      <div>
+        <div class="stat-num">8</div>
+        <div class="stat-label" data-en="ISI articles" data-es="Artículos ISI">ISI articles</div>
+      </div>
+      <div>
+        <div class="stat-num">14</div>
+        <div class="stat-label" data-en="Publications" data-es="Publicaciones">Publications</div>
+      </div>
+      <div>
+        <div class="stat-num">124</div>
+        <div class="stat-label" data-en="Quinoa accessions" data-es="Accesiones quinoa">Quinoa accessions</div>
+      </div>
+    </div>
+    <div class="hero-cta fade-up">
+      <a href="#publications" class="btn-primary" data-en="View publications" data-es="Ver publicaciones">View publications</a>
+      <a href="#tools" class="btn-secondary" data-en="Explore tools →" data-es="Ver herramientas →">Explore tools →</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-img-grid">
+      <div class="hero-img-top">
+        <img src="photos/greenhouse.jpg" alt="Wheat trial greenhouse" onerror="this.parentElement.style.background='#3d5a3e';this.style.display='none'">
+        <span class="hero-img-caption">Wheat phenotyping trial</span>
+      </div>
+      <div class="hero-img-bottom">
+        <div>
+          <img src="photos/lab.jpg" alt="Image analysis setup" onerror="this.parentElement.style.background='#c8a96e';this.style.display='none'">
+          <span class="hero-img-caption">Image acquisition</span>
+        </div>
+        <div>
+          <img src="photos/congress.jpg" alt="Scientific congress" onerror="this.parentElement.style.background='#8b4513';this.style.display='none'">
+          <span class="hero-img-caption">Scientific congress</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title" data-en="About" data-es="Sobre mí">About</h2>
+    </div>
+    <p data-en="I am an Agronomist with a Master's degree from Universidad Austral de Chile, currently working as Technical Manager of the Active Germplasm Bank at INIA Carillanca, Temuco. My work spans germplasm conservation, field trials, scientific writing, and computer vision research." data-es="Soy Ingeniero Agrónomo con Magíster de la Universidad Austral de Chile, actualmente Jefe Técnico del Banco de Germoplasma Activo de INIA Carillanca, Temuco. Mi trabajo abarca conservación de germoplasma, ensayos de campo, escritura científica e investigación en visión computacional.">
+      I am an Agronomist with a Master's degree from Universidad Austral de Chile, currently working as Technical Manager of the Active Germplasm Bank at INIA Carillanca, Temuco. My work spans germplasm conservation, field trials, scientific writing, and computer vision research.
+    </p>
+    <p data-en="My doctoral thesis developed an automated pipeline for wheat spike phenotyping using OpenCV and machine learning (SVR, KNN), currently being submitted to The Plant Phenome Journal. I am particularly interested in the intersection of traditional agronomy and modern computational tools." data-es="Mi tesis de magíster desarrolló un pipeline automatizado para fenotipado de espigas de trigo usando OpenCV y machine learning (SVR, KNN), actualmente en proceso de envío a The Plant Phenome Journal. Me interesa especialmente la intersección entre la agronomía tradicional y las herramientas computacionales modernas.">
+      My master's thesis developed an automated pipeline for wheat spike phenotyping using OpenCV and machine learning (SVR, KNN), currently being submitted to The Plant Phenome Journal. I am particularly interested in the intersection of traditional agronomy and modern computational tools.
+    </p>
+    <p data-en="I work within the INIA-UFRO Phenotyping Group, collaborating on genetic resources evaluation projects for wheat, bromegrass, quinoa, chickpea, and lupine, with a strong focus on efficient use of natural resources." data-es="Trabajo dentro del Grupo de Fenotipado INIA-UFRO, colaborando en proyectos de evaluación de recursos genéticos de trigo, bromos, quinoa, garbanzo y lupino, con un fuerte enfoque en el uso eficiente de recursos naturales.">
+      I work within the INIA-UFRO Phenotyping Group, collaborating on genetic resources evaluation projects for wheat, bromegrass, quinoa, chickpea, and lupine, with a strong focus on efficient use of natural resources.
+    </p>
+    <div class="about-tags">
+      <span class="tag">Germplasm Conservation</span>
+      <span class="tag">Computer Vision</span>
+      <span class="tag">Wheat Phenotyping</span>
+      <span class="tag">Python / OpenCV</span>
+      <span class="tag">Machine Learning</span>
+      <span class="tag">Field Trials</span>
+      <span class="tag">Quinoa</span>
+      <span class="tag">INIA Carillanca</span>
+    </div>
+  </div>
+  <div class="about-photo">
+    <img src="photos/congress.jpg" alt="Arturo Morales at scientific congress"
+         onerror="this.style.background='#3d5a3e';this.style.minHeight='400px'">
+    <div class="about-photo-label" data-en="INIA Carillanca · Temuco" data-es="INIA Carillanca · Temuco">INIA Carillanca · Temuco</div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title" data-en="Publications" data-es="Publicaciones">Publications</h2>
+  </div>
+  <div class="pub-list">
+
+    <div class="pub-item">
+      <div class="pub-year">2024</div>
+      <div class="pub-content">
+        <div class="pub-title">Evaluation and selection of bromegrass genotypes under phosphorus and water scarcity towards the development of resilient agriculture</div>
+        <div class="pub-authors">Meier S., de Souza Campos P.M., Morales A., et al.</div>
+        <div class="pub-journal">Agronomy, 14, 121</div>
+        <a class="pub-link" href="https://doi.org/10.3390/agronomy14010121" target="_blank">doi:10.3390/agronomy14010121</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2024</div>
+      <div class="pub-content">
+        <div class="pub-title">Genetic structure analyses reveal multiple origins of Elymus sensu stricto (Poaceae)</div>
+        <div class="pub-authors">Leo J., Bengtsson T., Morales A., Carlsson A.S., von Bothmer R.</div>
+        <div class="pub-journal">Genetic Resources and Crop Evolution</div>
+        <a class="pub-link" href="https://doi.org/10.1007/s10722-024-01944-1" target="_blank">doi:10.1007/s10722-024-01944-1</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2023</div>
+      <div class="pub-content">
+        <div class="pub-title">Synergistic role between phosphorus and water use efficiency in spring wheat genotypes</div>
+        <div class="pub-authors">Meier S., Morales A., Lopez-Olivari R., et al.</div>
+        <div class="pub-journal">Agricultural Water Management, 263, 107481</div>
+        <a class="pub-link" href="https://doi.org/10.1016/j.agwat.2022.107481" target="_blank">doi:10.1016/j.agwat.2022.107481</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2023</div>
+      <div class="pub-content">
+        <div class="pub-title">Correction of soil acidity with the cellulose industry residues in three andisols under wheat cultivation</div>
+        <div class="pub-authors">Hirzel J., Undurraga P., Meier S., Morales A., Salazar F.</div>
+        <div class="pub-journal">Journal of Elementology, 28(2), 465–483</div>
+        <a class="pub-link" href="https://doi.org/10.5601/jelem.2022.27.4.2340" target="_blank">doi:10.5601/jelem.2022.27.4.2340</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2022</div>
+      <div class="pub-content">
+        <div class="pub-title">Root traits distinguish phosphorus acquisition of two wheat cultivars growing in phosphorus-deficient acid soil</div>
+        <div class="pub-authors">De Souza Campos P., Meier S., Morales A., et al.</div>
+        <div class="pub-journal">Rhizosphere, 22, 100549</div>
+        <a class="pub-link" href="https://doi.org/10.1016/j.rhisph.2022.100549" target="_blank">doi:10.1016/j.rhisph.2022.100549</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2021</div>
+      <div class="pub-content">
+        <div class="pub-title">Interactive role between phosphorus utilization efficiency and water use efficiency in wheat</div>
+        <div class="pub-authors">Meier S., Moore F., Morales A., et al.</div>
+        <div class="pub-journal">Agricultural Water Management, 248, 106765</div>
+        <a class="pub-link" href="https://doi.org/10.1016/j.agwat.2021.106765" target="_blank">doi:10.1016/j.agwat.2021.106765</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2021</div>
+      <div class="pub-content">
+        <div class="pub-title">Effects of three biochars on copper immobilization and soil microbial communities in a metal-contaminated soil</div>
+        <div class="pub-authors">Meier S., Morales A., et al.</div>
+        <div class="pub-journal">Environmental Geochemistry and Health, 43(2)</div>
+        <a class="pub-link" href="https://doi.org/10.1007/s10653-019-00436-x" target="_blank">doi:10.1007/s10653-019-00436-x</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2021</div>
+      <div class="pub-content">
+        <div class="pub-title">Soil chemical properties and wheat production in three Andisol with applications of materials from the cellulose industry</div>
+        <div class="pub-authors">Hirzel J., Meier S., Morales A., Undurraga P., Salazar F.</div>
+        <div class="pub-journal">Revista Brasileira de Ciência do Solo, 45</div>
+        <a class="pub-link" href="https://doi.org/10.36783/18069657rbcs20230090" target="_blank">doi:10.36783/18069657rbcs20230090</a>
+      </div>
+      <span class="pub-type isi">ISI</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2025</div>
+      <div class="pub-content">
+        <div class="pub-title">Plant gene banks in Chile</div>
+        <div class="pub-authors">León-Lobos P., Muñoz M., de Souza Campos P.M., Morales A., et al.</div>
+        <div class="pub-journal">Plant Gene Banks. Springer Nature Singapore</div>
+        <a class="pub-link" href="https://doi.org/10.1007/978-981-99-4236-7_94-1" target="_blank">doi:10.1007/978-981-99-4236-7_94-1</a>
+      </div>
+      <span class="pub-type">Book chapter</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2019</div>
+      <div class="pub-content">
+        <div class="pub-title">Caracterización de germoplasma de quínoa del sur de Chile</div>
+        <div class="pub-authors">Morales A., Seguel I., Díaz L.</div>
+        <div class="pub-journal">Quínoa del sur de Chile — Libro INIA N° 38</div>
+      </div>
+      <span class="pub-type">Book</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2022</div>
+      <div class="pub-content">
+        <div class="pub-title">Determinación de la dosis óptima técnica de nitrógeno en variedades de trigo de alto rendimiento</div>
+        <div class="pub-authors">Meier S., Jobet C., Montesano de Souza P., Morales A., Castro R.</div>
+        <div class="pub-journal">INIA Informativo N° 162</div>
+      </div>
+      <span class="pub-type">Technical</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2021</div>
+      <div class="pub-content">
+        <div class="pub-title">Zarzaparrilla silvestre (Ribes magellanicum), planta nativa comestible como potencial nuevo cultivo</div>
+        <div class="pub-authors">Domínguez E., León-Lobos P., Morales A.</div>
+        <div class="pub-journal">INIA Informativo N° 113</div>
+      </div>
+      <span class="pub-type">Technical</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2020</div>
+      <div class="pub-content">
+        <div class="pub-title">Arjona patagonica: Plantas nativas comestibles como fuente potencial de nuevos cultivos</div>
+        <div class="pub-authors">Domínguez E., León-Lobos P., Morales A., Vergara C.</div>
+        <div class="pub-journal">INIA Ficha Técnica N° 81</div>
+      </div>
+      <span class="pub-type">Technical</span>
+    </div>
+
+    <div class="pub-item">
+      <div class="pub-year">2018</div>
+      <div class="pub-content">
+        <div class="pub-title">Catálogo de variedades locales de quínoa: Zona centro sur de Chile</div>
+        <div class="pub-authors">León-Lobos P., Morales A., Ruf K., Zurita A., Alfaro C.</div>
+        <div class="pub-journal">Programa de Recursos Genéticos — INIA</div>
+      </div>
+      <span class="pub-type">Catalogue</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section id="tools">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title" data-en="Field Tools" data-es="Herramientas">Field Tools</h2>
+  </div>
+  <div class="tools-grid">
+
+    <div class="tool-card">
+      <div class="tool-num">T — 01</div>
+      <div class="tool-icon">🗺️</div>
+      <div class="tool-name" data-en="Field Planner" data-es="Planificador de Potrero">Field Planner</div>
+      <div class="tool-desc" data-en="Interactive map tool for planning experimental field layouts. Import GPS waypoints, draw rotatable rectangles, calculate areas, and export GeoJSON for crop rotation planning." data-es="Herramienta de mapa interactivo para planificación de ensayos. Importa waypoints GPS, dibuja rectángulos rotables, calcula superficies y exporta GeoJSON para planificación de rotación de cultivos.">
+        Interactive map tool for planning experimental field layouts. Import GPS waypoints, draw rotatable rectangles, calculate areas, and export GeoJSON for crop rotation planning.
+      </div>
+      <div class="tool-tech">
+        <span class="tech-pill">Leaflet.js</span>
+        <span class="tech-pill">GPS / GPX</span>
+        <span class="tech-pill">GeoJSON</span>
+        <span class="tech-pill">Vanilla JS</span>
+      </div>
+      <a href="tools/field-planner.html" class="tool-link" data-en="Open tool" data-es="Abrir herramienta">Open tool</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-num">T — 02</div>
+      <div class="tool-icon">🫐</div>
+      <div class="tool-name" data-en="Blueberry Color Analyzer" data-es="Analizador de Color de Arándanos">Blueberry Color Analyzer</div>
+      <div class="tool-desc" data-en="Computer vision tool for objective color measurement of blueberry fruit. Extracts RGB, HSV, and L*a*b* values from images using automated segmentation, enabling standardized quality assessment." data-es="Herramienta de visión computacional para medición objetiva del color de arándanos. Extrae valores RGB, HSV y L*a*b* de imágenes mediante segmentación automatizada.">
+        Computer vision tool for objective color measurement of blueberry fruit. Extracts RGB, HSV, and L*a*b* values from images using automated segmentation, enabling standardized quality assessment.
+      </div>
+      <div class="tool-tech">
+        <span class="tech-pill">OpenCV</span>
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">L*a*b* color</span>
+        <span class="tech-pill">Image analysis</span>
+      </div>
+      <a href="tools/blueberry-color.html" class="tool-link" data-en="Open tool" data-es="Abrir herramienta">Open tool</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-num">T — 03</div>
+      <div class="tool-icon">🌾</div>
+      <div class="tool-name" data-en="WheatSpike Analyzer" data-es="Analizador de Espigas">WheatSpike Analyzer</div>
+      <div class="tool-desc" data-en="Progressive web application implementing an automated wheat spike phenotyping pipeline. Uses KNN classification (k=15) on OpenCV-extracted morphological features to predict spikelet count." data-es="Aplicación web progresiva que implementa un pipeline automatizado de fenotipado de espigas de trigo. Usa clasificación KNN (k=15) sobre características morfológicas extraídas con OpenCV.">
+        Progressive web application implementing an automated wheat spike phenotyping pipeline. Uses KNN classification (k=15) on OpenCV-extracted morphological features to predict spikelet count.
+      </div>
+      <div class="tool-tech">
+        <span class="tech-pill">OpenCV</span>
+        <span class="tech-pill">KNN</span>
+        <span class="tech-pill">SVR</span>
+        <span class="tech-pill">PWA</span>
+      </div>
+      <a href="https://github.com/arturo-morales" class="tool-link" target="_blank" data-en="View on GitHub" data-es="Ver en GitHub">View on GitHub</a>
+    </div>
+
+    <div class="tool-card">
+      <div class="tool-num">T — 04</div>
+      <div class="tool-icon">🏷️</div>
+      <div class="tool-name" data-en="MBM Impresiones" data-es="MBM Impresiones">MBM Impresiones</div>
+      <div class="tool-desc" data-en="Desktop application for thermal label printing at the germplasm bank. Built with Python/tkinter, packaged as a macOS app, interfaces directly with Zebra GK420t printer for accession label management." data-es="Aplicación de escritorio para impresión de etiquetas térmicas en el banco de germoplasma. Desarrollada en Python/tkinter, empaquetada como app macOS, interfaz directa con impresora Zebra GK420t.">
+        Desktop application for thermal label printing at the germplasm bank. Built with Python/tkinter, packaged as a macOS app, interfaces directly with Zebra GK420t printer for accession label management.
+      </div>
+      <div class="tool-tech">
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">tkinter</span>
+        <span class="tech-pill">PyInstaller</span>
+        <span class="tech-pill">Zebra ZPL</span>
+      </div>
+      <a href="https://github.com/arturo-morales" class="tool-link" target="_blank" data-en="View on GitHub" data-es="Ver en GitHub">View on GitHub</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title" data-en="Research Lines" data-es="Líneas de Investigación">Research Lines</h2>
+  </div>
+  <div class="research-grid">
+    <div class="research-card">
+      <div class="research-icon">🌱</div>
+      <div class="research-title" data-en="Genetic Resources Conservation" data-es="Conservación de Recursos Genéticos">Genetic Resources Conservation</div>
+      <div class="research-desc" data-en="Management and characterization of the Active Germplasm Bank at INIA Carillanca. Conservation of wheat, quinoa, bromegrass, chickpea, and lupine accessions with focus on morphological and agronomic descriptors." data-es="Gestión y caracterización del Banco de Germoplasma Activo de INIA Carillanca. Conservación de accesiones de trigo, quinoa, bromos, garbanzo y lupino con foco en descriptores morfológicos y agronómicos.">
+        Management and characterization of the Active Germplasm Bank at INIA Carillanca. Conservation of wheat, quinoa, bromegrass, chickpea, and lupine accessions with focus on morphological and agronomic descriptors.
+      </div>
+    </div>
+    <div class="research-card">
+      <div class="research-icon">👁️</div>
+      <div class="research-title" data-en="Automated Plant Phenotyping" data-es="Fenotipado Automatizado">Automated Plant Phenotyping</div>
+      <div class="research-desc" data-en="Development of computer vision pipelines for high-throughput phenotyping of wheat spikes and seeds. Application of machine learning models (SVR, KNN, deep learning) for trait prediction from image data." data-es="Desarrollo de pipelines de visión computacional para fenotipado de alto rendimiento de espigas y semillas de trigo. Aplicación de modelos de machine learning (SVR, KNN, deep learning) para predicción de caracteres.">
+        Development of computer vision pipelines for high-throughput phenotyping of wheat spikes and seeds. Application of machine learning models (SVR, KNN, deep learning) for trait prediction from image data.
+      </div>
+    </div>
+    <div class="research-card">
+      <div class="research-icon">💧</div>
+      <div class="research-title" data-en="Resource Use Efficiency" data-es="Eficiencia en Uso de Recursos">Resource Use Efficiency</div>
+      <div class="research-desc" data-en="Evaluation of water and phosphorus use efficiency in wheat and bromegrass genotypes. Identification of cultivars adapted to nutrient-limiting and drought conditions for resilient agriculture in southern Chile." data-es="Evaluación de eficiencia en uso de agua y fósforo en genotipos de trigo y bromos. Identificación de cultivares adaptados a condiciones limitantes de nutrientes y sequía para agricultura resiliente en el sur de Chile.">
+        Evaluation of water and phosphorus use efficiency in wheat and bromegrass genotypes. Identification of cultivars adapted to nutrient-limiting and drought conditions for resilient agriculture in southern Chile.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-text">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title" data-en="Contact" data-es="Contacto">Contact</h2>
+    </div>
+    <p data-en="Open to collaboration in genetic resources, phenotyping, and agronomic tool development. Also interested in teaching opportunities in plant sciences and data analysis." data-es="Abierto a colaboraciones en recursos genéticos, fenotipado y desarrollo de herramientas agronómicas. También interesado en oportunidades de docencia en ciencias vegetales y análisis de datos.">
+      Open to collaboration in genetic resources, phenotyping, and agronomic tool development. Also interested in teaching opportunities in plant sciences and data analysis.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:arturo.morales@inia.cl" class="contact-link">
+        <span class="contact-link-icon">✉</span>
+        arturo.morales@inia.cl
+      </a>
+      <a href="https://www.linkedin.com/in/arturo-morales" class="contact-link" target="_blank">
+        <span class="contact-link-icon">in</span>
+        LinkedIn
+      </a>
+      <a href="https://github.com/arturo-morales" class="contact-link" target="_blank">
+        <span class="contact-link-icon">⌥</span>
+        GitHub
+      </a>
+      <a href="https://orcid.org/0000-0000-0000-0000" class="contact-link" target="_blank">
+        <span class="contact-link-icon">○</span>
+        ORCID
+      </a>
+    </div>
+  </div>
+  <div class="contact-quote">
+    <p data-en="Conserving the past to feed the future — one accession at a time." data-es="Conservar el pasado para alimentar el futuro — una accesión a la vez.">
+      Conserving the past to feed the future — one accession at a time.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>© 2025 Arturo S. Morales Morales — INIA Carillanca, Temuco, Chile</span>
+  <span data-en="Plant Genetic Resources & Phenotyping" data-es="Recursos Genéticos Vegetales y Fenotipado">Plant Genetic Resources & Phenotyping</span>
+</footer>
+
+<script>
+let lang = 'en';
+
+function toggleLang() {
+  lang = lang === 'en' ? 'es' : 'en';
+  document.querySelector('.lang-toggle').textContent = lang === 'en' ? 'ES' : 'EN';
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = lang === 'en' ? el.dataset.en : el.dataset.es;
+  });
+}
+
+// Intersection observer for scroll animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.pub-item, .tool-card, .research-card').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
