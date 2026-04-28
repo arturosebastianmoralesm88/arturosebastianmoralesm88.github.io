@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco de Germoplasma Trigo - Análisis Histórico</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --pre-rv: #A32D2D;
+            --rv: #BA7517;
+            --post-rv: #0F6E56;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f7f3;
+            --bg-tertiary: #efefeb;
+            --text-primary: #2c2c2a;
+            --text-secondary: #5f5e5a;
+            --text-tertiary: #888780;
+            --border: #d3d1c7;
+        }
+
+        body.dark-mode {
+            --bg-primary: #1a1a18;
+            --bg-secondary: #2a2a27;
+            --bg-tertiary: #3a3a37;
+            --text-primary: #e8e7e2;
+            --text-secondary: #b4b2a9;
+            --text-tertiary: #888780;
+            --border: #4a4a47;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--post-rv);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 4px;
+            display: flex;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .theme-toggle button {
+            border: none;
+            background: transparent;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 13px;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: all 0.3s;
+        }
+
+        .theme-toggle button.active {
+            background: var(--bg-primary);
+            color: var(--post-rv);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        /* Timeline de Revolución Verde */
+        .timeline-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline {
+            display: flex;
+            gap: 2rem;
+            position: relative;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border);
+            transform: translateY(-50%);
+            z-index: 0;
+        }
+
+        .timeline-era {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .era-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            margin: 0 auto 12px;
+            position: relative;
+        }
+
+        .era-pre-rv .era-dot {
+            background: var(--pre-rv);
+        }
+
+        .era-rv .era-dot {
+            background: var(--rv);
+        }
+
+        .era-post-rv .era-dot {
+            background: var(--post-rv);
+        }
+
+        .era-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .era-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .era-years {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .era-stats {
+            font-size: 11px;
+            color: var(--text-tertiary);
+            line-height: 1.4;
+        }
+
+        /* Metrics Grid */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .metric-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--post-rv);
+            line-height: 1;
+        }
+
+        .metric-unit {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        /* Era Legend */
+        .era-legend {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-pre { background: var(--pre-rv); }
+        .legend-rv { background: var(--rv); }
+        .legend-post { background: var(--post-rv); }
+
+        /* Controls */
+        .controls {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        button.era-filter {
+            padding: 8px 16px;
+            border: 2px solid var(--border);
+            background: transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        button.era-filter.active {
+            color: white;
+            border-color: transparent;
+        }
+
+        button.era-filter.all { color: var(--text-primary); }
+        button.era-filter.all.active { background: var(--text-primary); }
+
+        button.era-filter.pre { color: var(--pre-rv); border-color: var(--pre-rv); }
+        button.era-filter.pre.active { background: var(--pre-rv); }
+
+        button.era-filter.rv { color: var(--rv); border-color: var(--rv); }
+        button.era-filter.rv.active { background: var(--rv); }
+
+        button.era-filter.post { color: var(--post-rv); border-color: var(--post-rv); }
+        button.era-filter.post.active { background: var(--post-rv); }
+
+        /* Charts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1000px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-container {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            height: 500px;
+        }
+
+        .chart-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .table-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            text-align: left;
+            padding: 10px 16px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        tr:hover { background: var(--bg-secondary); }
+        tr:last-child td { border-bottom: none; }
+
+        .genotipo-name {
+            font-weight: 600;
+            color: var(--post-rv);
+        }
+
+        .era-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge-pre { background: var(--pre-rv); }
+        .badge-rv { background: var(--rv); }
+        .badge-post { background: var(--post-rv); }
+
+        /* Insights */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .insight-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .insight-card h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .insight-card.pre h3 { border-bottom-color: var(--pre-rv); }
+        .insight-card.rv h3 { border-bottom-color: var(--rv); }
+        .insight-card.post h3 { border-bottom-color: var(--post-rv); }
+
+        .insight-list {
+            list-style: none;
+            font-size: 13px;
+        }
+
+        .insight-list li {
+            padding: 6px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .insight-list li:last-child {
+            border-bottom: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-size: 12px;
+            margin-top: 2rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-section, .metrics, .controls, .chart-container, .table-container {
+            animation: fadeIn 0.6s ease-out;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>Banco de Germoplasma de Trigo</h1>
+                <p class="subtitle">Análisis histórico de 37 genotipos | Contexto de Revolución Verde</p>
+            </div>
+            <div class="theme-toggle">
+                <button class="active" onclick="setTheme('light')">☀️ Claro</button>
+                <button onclick="setTheme('dark')">🌙 Oscuro</button>
+            </div>
+        </header>
+
+        <!-- Timeline Revolución Verde -->
+        <div class="timeline-section">
+            <div class="timeline-title">Contexto Histórico: Evolución del Trigo en Chile</div>
+            
+            <div class="timeline">
+                <div class="timeline-era era-pre-rv">
+                    <div class="era-dot"></div>
+                    <div class="era-card">
+                        <div class="era-name">PRE-REVOLUCIÓN VERDE</div>
+                        <div class="era-years">Antes de 1960</div>
+                        <div class="era-stats">
+                            Trigos criollos<br/>
+                            ~15-20 qq/ha<br/>
+                            Variedades altas
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-era era-rv">
+                    <div class="era-dot"></div>
+                    <div class="era-card">
+                        <div class="era-name">REVOLUCIÓN VERDE</div>
+                        <div class="era-years">1960-1980s</div>
+                        <div class="era-stats">
+                            Variedades enanas<br/>
+                            Mejora de PMG<br/>
+                            Mayor rendimiento
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-era era-post-rv">
+                    <div class="era-dot"></div>
+                    <div class="era-card">
+                        <div class="era-name">POST-REVOLUCIÓN VERDE</div>
+                        <div class="era-years">1990s-2000s</div>
+                        <div class="era-stats">
+                            Mejora molecular<br/>
+                            Especialización<br/>
+                            +20% rendimiento
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="era-legend">
+                <div class="legend-item">
+                    <div class="legend-dot legend-pre"></div>
+                    <span><strong>17 genotipos Pre-RV</strong> (65.6%) - Patrimonio histórico</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot legend-rv"></div>
+                    <span><strong>4 genotipos RV</strong> (8.1%) - Transición</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot legend-post"></div>
+                    <span><strong>16 genotipos Post-RV</strong> (26.3%) - Mejora moderna</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas -->
+        <div class="metrics">
+            <div class="metric-card">
+                <div class="metric-label">Pre-RV (promedio)</div>
+                <div class="metric-value">46.0</div>
+                <div class="metric-unit">g/planta</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Revolución Verde</div>
+                <div class="metric-value">53.2</div>
+                <div class="metric-unit">g/planta</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Post-RV (promedio)</div>
+                <div class="metric-value">59.8</div>
+                <div class="metric-unit">g/planta</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-label">Mejora acumulada</div>
+                <div class="metric-value">+30%</div>
+                <div class="metric-unit">Pre-RV a Post-RV</div>
+            </div>
+        </div>
+
+        <!-- Controles -->
+        <div class="controls">
+            <div style="display: flex; gap: 8px;">
+                <button class="era-filter all active" onclick="filterEra('all')">Todos</button>
+                <button class="era-filter pre" onclick="filterEra('pre')">Pre-RV</button>
+                <button class="era-filter rv" onclick="filterEra('rv')">Revolución Verde</button>
+                <button class="era-filter post" onclick="filterEra('post')">Post-RV</button>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="grid-2">
+            <div class="chart-container">
+                <div class="chart-title">Distribución de Rendimiento por Era</div>
+                <canvas id="distributionChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <div class="chart-title">Evolución Histórica del Rendimiento</div>
+                <canvas id="evolutionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabla con clasificación histórica -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-title">Top 20 Genotipos (ordenados por rendimiento y era)</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rango</th>
+                        <th>Genotipo</th>
+                        <th>Era</th>
+                        <th>Peso Granos (g)</th>
+                        <th>Creador</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Insights por Era -->
+        <h2 style="font-size: 20px; font-weight: 600; margin: 2rem 0 1rem; color: var(--text-primary);">Análisis por Era Histórica</h2>
+        <div class="insights-grid">
+            <div class="insight-card pre">
+                <h3>🏛️ Pre-Revolución Verde</h3>
+                <ul class="insight-list">
+                    <li><strong>Genotipos:</strong> 17 (65.6%)</li>
+                    <li><strong>Rendimiento:</strong> 46.0 g/planta</li>
+                    <li><strong>Valor:</strong> Diversidad genética, resiliencia adaptativa</li>
+                    <li><strong>Ejemplos:</strong> Oregon, Blanco Americano, Druchamp</li>
+                    <li><strong>Uso:</strong> Prospección de alelos de estrés</li>
+                </ul>
+            </div>
+
+            <div class="insight-card rv">
+                <h3>⚙️ Revolución Verde</h3>
+                <ul class="insight-list">
+                    <li><strong>Genotipos:</strong> 4 (8.1%)</li>
+                    <li><strong>Rendimiento:</strong> 53.2 g/planta (+16%)</li>
+                    <li><strong>Valor:</strong> Puente entre lo antiguo y moderno</li>
+                    <li><strong>Ejemplos:</strong> Karnaval, Pumafén, Copifén</li>
+                    <li><strong>Uso:</strong> Entender transición de arquitectura</li>
+                </ul>
+            </div>
+
+            <div class="insight-card post">
+                <h3>🧬 Post-Revolución Verde</h3>
+                <ul class="insight-list">
+                    <li><strong>Genotipos:</strong> 16 (26.3%)</li>
+                    <li><strong>Rendimiento:</strong> 59.8 g/planta (+30%)</li>
+                    <li><strong>Valor:</strong> Mejora sostenida y estabilidad</li>
+                    <li><strong>Ejemplos:</strong> Invento (79.4), Fritz (73.6)</li>
+                    <li><strong>Uso:</strong> Líneas elite para breeding actual</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Key insights -->
+        <div style="background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin: 2rem 0; border-left: 4px solid var(--post-rv);">
+            <h3 style="margin-bottom: 1rem; color: var(--post-rv);">💡 Hallazgos Clave para el Banco</h3>
+            <ul style="list-style-position: inside; color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>Valor histórico:</strong> Tu colección documenta la evolución del trigo chileno en 3 eras</li>
+                <li><strong>Brecha de rendimiento:</strong> +30% de mejora acumulada (Pre-RV a Post-RV)</li>
+                <li><strong>Trade-off genético:</strong> Variedades antiguas: baja productividad, alta diversidad</li>
+                <li><strong>Oportunidad de investigación:</strong> Comparar alelos de estrés pre-RV vs post-RV</li>
+                <li><strong>Estrategia:</strong> Mantener colección completa; hacer germoplasma "ancestral" researchable</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>Banco de Germoplasma INIA Carillanca | Grupo de Fenotipado INIA-UFRO | Datos experimentales 2026</p>
+        </footer>
+    </div>
+
+    <script>
+        const genotipesData = {
+            all: {
+                'Invento': { granos: 79.41, era: 'Post-RV', creador: 'Semillas Baer' },
+                'Fritz': { granos: 73.61, era: 'Post-RV', creador: 'Semillas Baer' },
+                'Kirón': { granos: 71.46, era: 'Post-RV', creador: 'INIA Carillanca' },
+                'Maxwell': { granos: 69.58, era: 'Post-RV', creador: 'INIA Carillanca' },
+                'Bakan': { granos: 68.59, era: 'Post-RV', creador: 'Semillas Baer' },
+                'Karnaval': { granos: 67.30, era: 'RV', creador: 'Variedad antigua' },
+                'Maqui': { granos: 62.67, era: 'Post-RV', creador: 'INIA' },
+                'Bingo': { granos: 59.73, era: 'Post-RV', creador: 'Semillas Baer' },
+                'Rancofén': { granos: 59.33, era: 'Post-RV', creador: 'INIA' },
+                'Oregon': { granos: 57.03, era: 'Pre-RV', creador: 'Introducida' },
+                'Manquefén': { granos: 57.01, era: 'Post-RV', creador: 'INIA' },
+                'Chevignon': { granos: 55.32, era: 'Pre-RV', creador: 'Introducida' },
+                'Pumafén': { granos: 54.98, era: 'RV', creador: 'INIA Carillanca' },
+                'Gayo': { granos: 54.88, era: 'Post-RV', creador: 'INIA' },
+                'Monarka': { granos: 54.83, era: 'Post-RV', creador: 'INIA' },
+                'Caluga': { granos: 54.58, era: 'Post-RV', creador: 'Semillas Baer' },
+                'Rupanco': { granos: 53.73, era: 'Post-RV', creador: 'INIA' },
+                'Copifén': { granos: 51.04, era: 'RV', creador: 'INIA Carillanca' },
+                'Capelle Desprez': { granos: 50.10, era: 'Pre-RV', creador: 'Introducida' },
+                'Bárbaro': { granos: 49.99, era: 'Pre-RV', creador: 'Introducida' },
+                'Dollinco': { granos: 49.99, era: 'Post-RV', creador: 'INIA' },
+                'Blanco Americano': { granos: 49.95, era: 'Pre-RV', creador: 'Introducida' },
+                'As': { granos: 49.32, era: 'Pre-RV', creador: 'Introducida' },
+                'Kumpa': { granos: 48.05, era: 'Post-RV', creador: 'INIA' },
+                'Hesbignon': { granos: 47.35, era: 'Pre-RV', creador: 'Introducida' },
+                'Heine 4': { granos: 47.16, era: 'Pre-RV', creador: 'Introducida' },
+                'Export': { granos: 43.81, era: 'Pre-RV', creador: 'Introducida' },
+                'Vilmorin 23': { granos: 43.54, era: 'Pre-RV', creador: 'Introducida' },
+                'Nord Desprez': { granos: 43.21, era: 'Pre-RV', creador: 'Introducida' },
+                'Lanco': { granos: 43.06, era: 'Pre-RV', creador: 'Introducida' },
+                'Biofén': { granos: 41.59, era: 'Pre-RV', creador: 'Introducida' },
+                'Patriota': { granos: 41.20, era: 'Pre-RV', creador: 'Introducida' },
+                'Palomo': { granos: 40.90, era: 'Pre-RV', creador: 'Introducida' },
+                'Castaño colorado': { granos: 40.81, era: 'Pre-RV', creador: 'Introducida' },
+                'Innovo': { granos: 39.96, era: 'Post-RV', creador: 'Variedad reciente' },
+                'Inter 74': { granos: 39.43, era: 'RV', creador: 'Variedad antigua' },
+                'Druchamp': { granos: 37.37, era: 'Pre-RV', creador: 'Variedad antigua' }
+            }
+        };
+
+        let currentFilter = 'all';
+        let distributionChart = null;
+        let evolutionChart = null;
+
+        function getFilteredData(filter) {
+            const data = genotipesData.all;
+            if (filter === 'all') return data;
+            
+            const eraMap = { pre: 'Pre-RV', rv: 'RV', post: 'Post-RV' };
+            const era = eraMap[filter];
+            
+            return Object.keys(data).reduce((acc, key) => {
+                if (data[key].era === era) acc[key] = data[key];
+                return acc;
+            }, {});
+        }
+
+        function updateCharts() {
+            const filteredData = getFilteredData(currentFilter);
+            const sorted = Object.entries(filteredData)
+                .sort((a, b) => b[1].granos - a[1].granos)
+                .slice(0, 15);
+
+            const isDark = document.body.classList.contains('dark-mode');
+
+            // Distribution chart
+            if (distributionChart) distributionChart.destroy();
+            const ctx1 = document.getElementById('distributionChart').getContext('2d');
+            
+            const preRVData = Object.values(filteredData).filter(d => d.era === 'Pre-RV').map(d => d.granos);
+            const rvData = Object.values(filteredData).filter(d => d.era === 'RV').map(d => d.granos);
+            const postRVData = Object.values(filteredData).filter(d => d.era === 'Post-RV').map(d => d.granos);
+
+            distributionChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Pre-RV', 'Revolución Verde', 'Post-RV'],
+                    datasets: [{
+                        label: 'Promedio (g)',
+                        data: [
+                            preRVData.length > 0 ? (preRVData.reduce((a,b) => a+b)/preRVData.length).toFixed(1) : 0,
+                            rvData.length > 0 ? (rvData.reduce((a,b) => a+b)/rvData.length).toFixed(1) : 0,
+                            postRVData.length > 0 ? (postRVData.reduce((a,b) => a+b)/postRVData.length).toFixed(1) : 0
+                        ],
+                        backgroundColor: ['rgba(163, 45, 45, 0.3)', 'rgba(186, 117, 23, 0.3)', 'rgba(15, 110, 86, 0.3)'],
+                        borderColor: ['#A32D2D', '#BA7517', '#0F6E56'],
+                        borderWidth: 1.5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, title: { display: true, text: 'g/planta' } } }
+                }
+            });
+
+            // Evolution chart - top 15
+            if (evolutionChart) evolutionChart.destroy();
+            const ctx2 = document.getElementById('evolutionChart').getContext('2d');
+
+            evolutionChart = new Chart(ctx2, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(([name]) => name),
+                    datasets: [{
+                        label: 'Peso de granos (g)',
+                        data: sorted.map(([_, data]) => data.granos),
+                        backgroundColor: sorted.map(([_, data]) => {
+                            if (data.era === 'Pre-RV') return 'rgba(163, 45, 45, 0.3)';
+                            if (data.era === 'RV') return 'rgba(186, 117, 23, 0.3)';
+                            return 'rgba(15, 110, 86, 0.3)';
+                        }),
+                        borderColor: sorted.map(([_, data]) => {
+                            if (data.era === 'Pre-RV') return '#A32D2D';
+                            if (data.era === 'RV') return '#BA7517';
+                            return '#0F6E56';
+                        }),
+                        borderWidth: 1.5
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true } }
+                }
+            });
+        }
+
+        function filterEra(era) {
+            currentFilter = era;
+            
+            document.querySelectorAll('.era-filter').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            updateCharts();
+            populateTable();
+        }
+
+        function populateTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+            
+            const filteredData = getFilteredData(currentFilter);
+            const sorted = Object.entries(filteredData)
+                .sort((a, b) => b[1].granos - a[1].granos)
+                .slice(0, 20);
+
+            sorted.forEach(([name, data], i) => {
+                const row = document.createElement('tr');
+                const eraClass = data.era === 'Pre-RV' ? 'pre' : data.era === 'RV' ? 'rv' : 'post';
+                const eraBadge = data.era === 'Pre-RV' ? 'Pre-RV' : data.era === 'RV' ? 'RV' : 'Post-RV';
+                
+                row.innerHTML = `
+                    <td>${i + 1}</td>
+                    <td class="genotipo-name">${name}</td>
+                    <td><span class="era-badge badge-${eraClass}">${eraBadge}</span></td>
+                    <td><strong>${data.granos.toFixed(2)}</strong></td>
+                    <td style="font-size: 12px; color: var(--text-secondary);">${data.creador}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+            
+            document.querySelectorAll('.theme-toggle button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            updateCharts();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCharts();
+            populateTable();
+        });
+    </script>
+</body>
+</html>
