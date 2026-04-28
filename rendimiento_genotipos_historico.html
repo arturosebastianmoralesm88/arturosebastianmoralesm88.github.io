@@ -36,7 +36,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: 'Times New Roman', Times, Georgia, serif;
             background: var(--bg-secondary);
             color: var(--text-primary);
             line-height: 1.6;
@@ -441,14 +441,108 @@
             animation: fadeIn 0.6s ease-out;
         }
 
+        /* Sección Biomasa */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 3rem 0 2rem;
+        }
+        .section-divider h2 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            white-space: nowrap;
+        }
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .biomasa-explainer {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-left: 4px solid #5B7FA6;
+            border-radius: 12px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .biomasa-explainer h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #5B7FA6;
+            margin-bottom: 0.75rem;
+        }
+        .biomasa-explainer p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 0.5rem;
+        }
+        .biomasa-explainer p:last-child { margin-bottom: 0; }
+
+        .biomasa-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 2rem;
+        }
+        .biomasa-metric-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .biomasa-metric-card .metric-label { font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+        .biomasa-metric-card .metric-value { font-size: 26px; font-weight: 600; color: #5B7FA6; line-height: 1; }
+        .biomasa-metric-card .metric-unit { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        @media (max-width: 1100px) { .grid-3 { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 700px) { .grid-3 { grid-template-columns: 1fr; } }
+
+        .chart-container-tall {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            position: relative;
+            height: 520px;
+        }
+
+        .biomasa-table-container {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .hi-bar {
+            display: inline-block;
+            height: 8px;
+            border-radius: 4px;
+            background: #5B7FA6;
+            vertical-align: middle;
+            margin-right: 6px;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <div>
-                <h1>Banco de Germoplasma de Trigo</h1>
-                <p class="subtitle">Análisis histórico de 37 genotipos | Contexto de Revolución Verde</p>
+                <h1>Banco Activo de Germoplasma de Trigo — INIA Carillanca</h1>
+                <p class="subtitle">Instituto de Investigaciones Agropecuarias, Centro Regional Carillanca &nbsp;|&nbsp; Análisis histórico de 37 genotipos &nbsp;|&nbsp; Temporada 2025–26</p>
             </div>
             <div class="theme-toggle">
                 <button class="active" onclick="setTheme('light')">☀️ Claro</button>
@@ -459,9 +553,10 @@
         <!-- Timeline Revolución Verde -->
         <div class="timeline-section">
             <div class="timeline-title">Contexto Histórico: Evolución del Trigo en Chile</div>
-            
+            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:1.5rem; line-height:1.7;">
+                El Banco Activo de Germoplasma de INIA Carillanca conserva cerca de <strong>5.000 accesiones</strong> de cereales y leguminosas, en su mayoría materiales antiguos incorporados al patrimonio nacional a través del Programa de Mejoramiento Genético (PMG) durante los años 1980 y principios de los 1990. Esta colección representa un reservorio irreemplazable de diversidad genética, documentando más de un siglo de evolución varietal en el trigo de la zona sur de Chile.
+            </p>
             <div class="timeline">
-                <div class="timeline-era era-pre-rv">
                     <div class="era-dot"></div>
                     <div class="era-card">
                         <div class="era-name">PRE-REVOLUCIÓN VERDE</div>
@@ -587,7 +682,7 @@
         <h2 style="font-size: 20px; font-weight: 600; margin: 2rem 0 1rem; color: var(--text-primary);">Análisis por Era Histórica</h2>
         <div class="insights-grid">
             <div class="insight-card pre">
-                <h3>🏛️ Pre-Revolución Verde</h3>
+                <h3>Pre-Revolución Verde</h3>
                 <ul class="insight-list">
                     <li><strong>Genotipos:</strong> 17 (65.6%)</li>
                     <li><strong>Rendimiento:</strong> 46.0 g/planta</li>
@@ -598,7 +693,7 @@
             </div>
 
             <div class="insight-card rv">
-                <h3>⚙️ Revolución Verde</h3>
+                <h3>Revolución Verde</h3>
                 <ul class="insight-list">
                     <li><strong>Genotipos:</strong> 4 (8.1%)</li>
                     <li><strong>Rendimiento:</strong> 53.2 g/planta (+16%)</li>
@@ -609,7 +704,7 @@
             </div>
 
             <div class="insight-card post">
-                <h3>🧬 Post-Revolución Verde</h3>
+                <h3>Post-Revolución Verde</h3>
                 <ul class="insight-list">
                     <li><strong>Genotipos:</strong> 16 (26.3%)</li>
                     <li><strong>Rendimiento:</strong> 59.8 g/planta (+30%)</li>
@@ -622,7 +717,7 @@
 
         <!-- Key insights -->
         <div style="background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin: 2rem 0; border-left: 4px solid var(--post-rv);">
-            <h3 style="margin-bottom: 1rem; color: var(--post-rv);">💡 Hallazgos Clave para el Banco</h3>
+            <h3 style="margin-bottom: 1rem; color: var(--post-rv);">Hallazgos Clave para el Banco</h3>
             <ul style="list-style-position: inside; color: var(--text-secondary); line-height: 1.8;">
                 <li><strong>Valor histórico:</strong> Tu colección documenta la evolución del trigo chileno en 3 eras</li>
                 <li><strong>Brecha de rendimiento:</strong> +30% de mejora acumulada (Pre-RV a Post-RV)</li>
@@ -632,8 +727,99 @@
             </ul>
         </div>
 
+        <!-- SECCIÓN BIOMASA EN ANTESIS -->
+        <div class="section-divider">
+            <h2>Biomasa en Antesis</h2>
+        </div>
+
+        <div class="biomasa-explainer">
+            <h3>¿Por qué medir biomasa en antesis y no en cosecha?</h3>
+            <p>La antesis (floración) es el momento de mayor biomasa vegetativa en el trigo: los tallos han completado su elongación, las hojas están en plena actividad fotosintética y las espigas acaban de emerger pero los granos aún no se han llenado. Medir en este momento permite capturar la <strong>capacidad de acumulación de biomasa</strong> antes de que comience la redistribución de fotoasimilados hacia el grano (remobilización).</p>
+            <p>Esto es fundamentalmente diferente a los factores de rendimiento (medidos en cosecha), donde ya ocurrió la partición final. En antesis podemos cuantificar el <strong>Índice de Cosecha potencial</strong> (relación espiga/biomasa total) y la <strong>partición de biomasa</strong> entre órganos —hoja, tallo, espiga— revelando estrategias contrastantes entre genotipos históricos y modernos.</p>
+            <p>Un genotipo con alta biomasa total en antesis pero bajo HI acumula mucho en el tallo y no lo transfiere eficientemente al grano: patrón típico de variedades pre-revolución verde de porte alto. Las variedades modernas, con genes de enanismo (<em>Rht</em>), invierten menos carbono en estructura y más en el grano.</p>
+        </div>
+
+        <!-- Métricas resumen biomasa -->
+        <div class="biomasa-metrics">
+            <div class="biomasa-metric-card">
+                <div class="metric-label">Biomasa total máx.</div>
+                <div class="metric-value">227</div>
+                <div class="metric-unit">g/25cm — Manquefén</div>
+            </div>
+            <div class="biomasa-metric-card">
+                <div class="metric-label">Biomasa total mín.</div>
+                <div class="metric-value">69</div>
+                <div class="metric-unit">g/25cm — Vilmorin 23</div>
+            </div>
+            <div class="biomasa-metric-card">
+                <div class="metric-label">HI más alto</div>
+                <div class="metric-value">34.5%</div>
+                <div class="metric-unit">Rancofén (Post-RV)</div>
+            </div>
+            <div class="biomasa-metric-card">
+                <div class="metric-label">HI más bajo</div>
+                <div class="metric-value">7.2%</div>
+                <div class="metric-unit">Vilmorin 23 (Pre-RV)</div>
+            </div>
+            <div class="biomasa-metric-card">
+                <div class="metric-label">Promedio HI Pre-RV</div>
+                <div class="metric-value">13.1%</div>
+                <div class="metric-unit">vs 17.5% Post-RV</div>
+            </div>
+        </div>
+
+        <!-- 3 gráficos biomasa -->
+        <div class="grid-3">
+            <div class="chart-container-tall">
+                <div class="chart-title">Índice de Cosecha por genotipo (%)</div>
+                <canvas id="hiChart"></canvas>
+            </div>
+            <div class="chart-container-tall">
+                <div class="chart-title">Biomasa total en antesis (g/25 cm)</div>
+                <canvas id="biomasaTotalChart"></canvas>
+            </div>
+            <div class="chart-container-tall">
+                <div class="chart-title">Partición de biomasa por era histórica</div>
+                <canvas id="particionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabla biomasa -->
+        <div class="biomasa-table-container">
+            <div class="table-header">
+                <div class="chart-title">Resumen biomasa en antesis — todos los genotipos</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Genotipo</th>
+                        <th>Era</th>
+                        <th>Biomasa total (g)</th>
+                        <th>Índice Cosecha (%)</th>
+                        <th>% Hoja</th>
+                        <th>% Tallo</th>
+                        <th>% Espiga</th>
+                        <th>% Tallos fértiles</th>
+                    </tr>
+                </thead>
+                <tbody id="biomasaTableBody"></tbody>
+            </table>
+        </div>
+
+        <div style="background: var(--bg-primary); border: 1px solid var(--border); border-radius: 12px; padding: 2rem; margin: 0 0 2rem; border-left: 4px solid #5B7FA6;">
+            <h3 style="margin-bottom: 1rem; color: #5B7FA6;">Hallazgos Clave — Biomasa en Antesis</h3>
+            <ul style="list-style-position: inside; color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>Trade-off biomasa vs eficiencia:</strong> Oregon y Manquefén acumulan &gt;200 g/25 cm pero con HI &lt;12%, mientras Rancofén logra HI=34.5% con biomasa moderada.</li>
+                <li><strong>Patrón Pre-RV:</strong> Alta inversión en tallo (~65–70%), baja partición hacia espiga. Refleja arquitectura de planta alta sin genes <em>Rht</em>.</li>
+                <li><strong>Patrón Post-RV:</strong> Mayor HI promedio (17.5% vs 13.1%), menor biomasa total, mayor eficiencia de remobilización.</li>
+                <li><strong>Excepciones de interés:</strong> Rancofén (Post-RV, HI=34.5%) y Kirón (Post-RV, HI=20.6%) combinan buena biomasa con alta partición — candidatos a análisis de fuente-destino.</li>
+                <li><strong>Fertilidad de tallos:</strong> Variedades modernas como Fritz y Rancofén superan 98% de fertilidad, indicando alta sincronía en el desarrollo de macollos.</li>
+            </ul>
+        </div>
+
         <footer>
-            <p>Banco de Germoplasma INIA Carillanca | Grupo de Fenotipado INIA-UFRO | Datos experimentales 2026</p>
+            <p>Banco Activo de Germoplasma &nbsp;|&nbsp; Instituto de Investigaciones Agropecuarias, Centro Regional Carillanca &nbsp;|&nbsp; Grupo de Fenotipado INIA-UFRO</p>
+            <p style="margin-top:6px;">Análisis: Arturo Morales, Ing. Agrónomo, MSc. Ciencias Vegetales &nbsp;|&nbsp; Encargado Gestión Técnica, Banco Activo de Germoplasma &nbsp;|&nbsp; Datos experimentales temporada 2025–26</p>
         </footer>
     </div>
 
@@ -824,7 +1010,177 @@
         document.addEventListener('DOMContentLoaded', () => {
             updateCharts();
             populateTable();
+            initBiomasaCharts();
+            populateBiomasaTable();
         });
+
+        // ===================== BIOMASA EN ANTESIS =====================
+        const biomasaData = {
+            'Rancofén':         {total:151.7, hi:34.5, hoja:14.1, tallo:51.4, espiga:34.5, pctFertil:98.6, era:'Post-RV'},
+            'Karnaval':         {total:129.8, hi:22.5, hoja:18.8, tallo:58.6, espiga:22.5, pctFertil:69.5, era:'RV'},
+            'Maxwell':          {total:79.3,  hi:20.6, hoja:24.1, tallo:55.4, espiga:20.6, pctFertil:87.2, era:'Post-RV'},
+            'Kirón':            {total:157.0, hi:20.6, hoja:21.1, tallo:58.4, espiga:20.6, pctFertil:85.1, era:'Post-RV'},
+            'Fritz':            {total:198.4, hi:19.8, hoja:17.8, tallo:62.4, espiga:19.8, pctFertil:98.1, era:'Post-RV'},
+            'Bakan':            {total:134.5, hi:18.7, hoja:18.9, tallo:62.4, espiga:18.7, pctFertil:81.8, era:'Post-RV'},
+            'Maqui':            {total:132.8, hi:18.7, hoja:29.5, tallo:51.8, espiga:18.7, pctFertil:82.3, era:'Post-RV'},
+            'Bingo':            {total:73.2,  hi:18.4, hoja:17.5, tallo:64.1, espiga:18.4, pctFertil:75.0, era:'Post-RV'},
+            'Rupanco':          {total:132.0, hi:18.3, hoja:22.7, tallo:59.0, espiga:18.3, pctFertil:80.8, era:'Post-RV'},
+            'Monarka':          {total:75.1,  hi:17.3, hoja:13.8, tallo:68.7, espiga:17.3, pctFertil:95.2, era:'Post-RV'},
+            'Kumpa':            {total:93.0,  hi:17.1, hoja:18.3, tallo:64.6, espiga:17.1, pctFertil:84.7, era:'Post-RV'},
+            'Caluga':           {total:90.5,  hi:17.0, hoja:22.4, tallo:60.4, espiga:17.0, pctFertil:75.5, era:'Post-RV'},
+            'Bárbaro':          {total:148.8, hi:17.0, hoja:23.8, tallo:59.2, espiga:17.0, pctFertil:89.2, era:'Pre-RV'},
+            'Palomo':           {total:87.5,  hi:16.7, hoja:27.5, tallo:55.9, espiga:16.7, pctFertil:80.0, era:'Pre-RV'},
+            'Lanco':            {total:104.4, hi:16.5, hoja:25.0, tallo:58.5, espiga:16.5, pctFertil:79.7, era:'Pre-RV'},
+            'Invento':          {total:143.4, hi:16.2, hoja:18.3, tallo:65.3, espiga:16.2, pctFertil:95.0, era:'Post-RV'},
+            'Dollinco':         {total:110.1, hi:16.1, hoja:18.3, tallo:65.6, espiga:16.1, pctFertil:84.7, era:'Post-RV'},
+            'As':               {total:93.8,  hi:15.7, hoja:21.4, tallo:63.0, espiga:15.7, pctFertil:83.6, era:'Pre-RV'},
+            'Pumafén':          {total:132.1, hi:15.6, hoja:19.2, tallo:65.3, espiga:15.6, pctFertil:98.1, era:'RV'},
+            'Manquefén':        {total:227.3, hi:15.2, hoja:16.4, tallo:68.5, espiga:15.2, pctFertil:97.6, era:'Post-RV'},
+            'Gayo':             {total:93.2,  hi:15.1, hoja:25.4, tallo:59.4, espiga:15.1, pctFertil:74.0, era:'Post-RV'},
+            'Export':           {total:129.1, hi:14.7, hoja:23.3, tallo:62.0, espiga:14.7, pctFertil:70.8, era:'Pre-RV'},
+            'Chevignon':        {total:107.9, hi:14.6, hoja:14.7, tallo:70.6, espiga:14.6, pctFertil:97.5, era:'Pre-RV'},
+            'Blanco Americano': {total:114.1, hi:14.5, hoja:13.8, tallo:71.7, espiga:14.5, pctFertil:97.4, era:'Pre-RV'},
+            'Innovo':           {total:104.2, hi:13.7, hoja:19.2, tallo:67.1, espiga:13.7, pctFertil:90.3, era:'Post-RV'},
+            'Hesbignon':        {total:144.9, hi:13.4, hoja:20.2, tallo:66.5, espiga:13.4, pctFertil:90.7, era:'Pre-RV'},
+            'Inter 74':         {total:109.0, hi:12.7, hoja:21.4, tallo:65.9, espiga:12.7, pctFertil:92.0, era:'RV'},
+            'Nord Desprez':     {total:136.2, hi:12.0, hoja:26.6, tallo:61.4, espiga:12.0, pctFertil:95.3, era:'Pre-RV'},
+            'Oregon':           {total:218.9, hi:11.1, hoja:19.3, tallo:69.6, espiga:11.1, pctFertil:90.5, era:'Pre-RV'},
+            'Capelle Desprez':  {total:144.0, hi:11.1, hoja:21.4, tallo:67.5, espiga:11.1, pctFertil:92.9, era:'Pre-RV'},
+            'Patriota':         {total:194.7, hi:11.1, hoja:18.5, tallo:70.4, espiga:11.1, pctFertil:92.1, era:'Pre-RV'},
+            'Copifén':          {total:196.6, hi:10.8, hoja:18.4, tallo:70.8, espiga:10.8, pctFertil:96.5, era:'RV'},
+            'Biofén':           {total:160.1, hi:10.7, hoja:22.2, tallo:67.0, espiga:10.7, pctFertil:95.2, era:'Pre-RV'},
+            'Heine 4':          {total:133.8, hi:10.7, hoja:20.3, tallo:69.0, espiga:10.7, pctFertil:94.8, era:'Pre-RV'},
+            'Castaño colorado': {total:154.6, hi:10.6, hoja:21.5, tallo:67.9, espiga:10.6, pctFertil:83.5, era:'Pre-RV'},
+            'Druchamp':         {total:126.8, hi:9.4,  hoja:24.0, tallo:66.6, espiga:9.4,  pctFertil:81.4, era:'Pre-RV'},
+            'Vilmorin 23':      {total:69.3,  hi:7.2,  hoja:16.2, tallo:76.8, espiga:7.2,  pctFertil:97.3, era:'Pre-RV'},
+        };
+
+        function eraColor(era, alpha) {
+            if (era === 'Pre-RV') return `rgba(163,45,45,${alpha})`;
+            if (era === 'RV')     return `rgba(186,117,23,${alpha})`;
+            return                       `rgba(15,110,86,${alpha})`;
+        }
+        function eraBorderColor(era) {
+            if (era === 'Pre-RV') return '#A32D2D';
+            if (era === 'RV')     return '#BA7517';
+            return '#0F6E56';
+        }
+
+        function initBiomasaCharts() {
+            const sorted = Object.entries(biomasaData).sort((a,b) => b[1].hi - a[1].hi);
+
+            // HI Chart (horizontal bar, sorted desc)
+            const ctxHI = document.getElementById('hiChart').getContext('2d');
+            new Chart(ctxHI, {
+                type: 'bar',
+                data: {
+                    labels: sorted.map(([n]) => n),
+                    datasets: [{
+                        label: 'HI (%)',
+                        data: sorted.map(([,d]) => d.hi),
+                        backgroundColor: sorted.map(([,d]) => eraColor(d.era, 0.35)),
+                        borderColor: sorted.map(([,d]) => eraBorderColor(d.era)),
+                        borderWidth: 1.5
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false },
+                        tooltip: { callbacks: { afterLabel: ctx => `Era: ${sorted[ctx.dataIndex][1].era}` } }
+                    },
+                    scales: { x: { beginAtZero: true, title: { display: true, text: 'HI (%)' } } }
+                }
+            });
+
+            // Biomasa total chart
+            const sortedTotal = Object.entries(biomasaData).sort((a,b) => b[1].total - a[1].total);
+            const ctxTotal = document.getElementById('biomasaTotalChart').getContext('2d');
+            new Chart(ctxTotal, {
+                type: 'bar',
+                data: {
+                    labels: sortedTotal.map(([n]) => n),
+                    datasets: [{
+                        label: 'Biomasa total (g)',
+                        data: sortedTotal.map(([,d]) => d.total),
+                        backgroundColor: sortedTotal.map(([,d]) => eraColor(d.era, 0.35)),
+                        borderColor: sortedTotal.map(([,d]) => eraBorderColor(d.era)),
+                        borderWidth: 1.5
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { x: { beginAtZero: true, title: { display: true, text: 'g/25 cm lineal' } } }
+                }
+            });
+
+            // Partición por era (stacked bar, promedios)
+            const eras = ['Pre-RV', 'RV', 'Post-RV'];
+            const avg = (arr, key) => arr.reduce((s,v) => s + v[key], 0) / arr.length;
+            const byEra = eras.map(era => Object.values(biomasaData).filter(d => d.era === era));
+
+            const ctxP = document.getElementById('particionChart').getContext('2d');
+            new Chart(ctxP, {
+                type: 'bar',
+                data: {
+                    labels: ['Pre-RV', 'Revolución Verde', 'Post-RV'],
+                    datasets: [
+                        {
+                            label: '% Hoja',
+                            data: byEra.map(arr => parseFloat(avg(arr,'hoja').toFixed(1))),
+                            backgroundColor: 'rgba(107,168,77,0.7)',
+                            borderColor: '#5a9a3b', borderWidth: 1
+                        },
+                        {
+                            label: '% Tallo',
+                            data: byEra.map(arr => parseFloat(avg(arr,'tallo').toFixed(1))),
+                            backgroundColor: 'rgba(180,140,80,0.7)',
+                            borderColor: '#9a7a30', borderWidth: 1
+                        },
+                        {
+                            label: '% Espiga',
+                            data: byEra.map(arr => parseFloat(avg(arr,'espiga').toFixed(1))),
+                            backgroundColor: 'rgba(91,127,166,0.7)',
+                            borderColor: '#3a6a9a', borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { font: { size: 12 } } } },
+                    scales: {
+                        x: { stacked: true },
+                        y: { stacked: true, max: 100, title: { display: true, text: '% Biomasa' } }
+                    }
+                }
+            });
+        }
+
+        function populateBiomasaTable() {
+            const tbody = document.getElementById('biomasaTableBody');
+            const sorted = Object.entries(biomasaData).sort((a,b) => b[1].hi - a[1].hi);
+            sorted.forEach(([name, d]) => {
+                const eraClass = d.era === 'Pre-RV' ? 'pre' : d.era === 'RV' ? 'rv' : 'post';
+                const row = document.createElement('tr');
+                const barW = Math.round(d.hi * 2.5);
+                row.innerHTML = `
+                    <td class="genotipo-name">${name}</td>
+                    <td><span class="era-badge badge-${eraClass}">${d.era}</span></td>
+                    <td>${d.total}</td>
+                    <td><span class="hi-bar" style="width:${barW}px"></span>${d.hi}%</td>
+                    <td>${d.hoja}%</td>
+                    <td>${d.tallo}%</td>
+                    <td>${d.espiga}%</td>
+                    <td>${d.pctFertil}%</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
     </script>
 </body>
 </html>
