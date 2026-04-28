@@ -441,7 +441,63 @@
             animation: fadeIn 0.6s ease-out;
         }
 
-        /* Sección Biomasa */
+        /* Galería fotográfica */
+        .gallery-section {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem 2rem;
+            margin-bottom: 2rem;
+        }
+        .gallery-section .timeline-title {
+            margin-bottom: 1.25rem;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .gallery-grid .photo-wide {
+            grid-column: span 2;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: var(--bg-tertiary);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.03);
+        }
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.65));
+            color: #fff;
+            font-size: 11px;
+            padding: 20px 12px 10px;
+            font-style: italic;
+            line-height: 1.4;
+        }
+        @media (max-width: 800px) {
+            .gallery-grid { grid-template-columns: 1fr 1fr; }
+            .gallery-grid .photo-wide { grid-column: span 2; }
+        }
+        @media (max-width: 500px) {
+            .gallery-grid { grid-template-columns: 1fr; }
+            .gallery-grid .photo-wide { grid-column: span 1; }
+        }
+
+        
         .section-divider {
             display: flex;
             align-items: center;
@@ -609,6 +665,33 @@
                 <div class="legend-item">
                     <div class="legend-dot legend-post"></div>
                     <span><strong>16 genotipos Post-RV</strong> (26.3%) - Mejora moderna</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Galería fotográfica -->
+        <div class="gallery-section">
+            <div class="timeline-title">Ensayos en Campo — Banco Activo de Germoplasma</div>
+            <div class="gallery-grid">
+                <div class="gallery-item photo-wide">
+                    <img src="drone_modulo_rrgg.jpeg" alt="Vista aérea módulo RRGG">
+                    <div class="gallery-caption">Vista aérea del módulo de recursos genéticos en establecimiento. INIA Carillanca.</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="staygreen.jpeg" alt="Variabilidad fenotípica en madurez">
+                    <div class="gallery-caption">Variabilidad fenotípica en madurez. Se observa genotipo staygreen al centro.</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="drone_trigo_nucleo_antesis.jpeg" alt="Núcleo de trigo en antesis">
+                    <div class="gallery-caption">Núcleo activo de trigo en antesis. Vista cenital con dron.</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="nucleo_trigo.jpeg" alt="Núcleo trigo establecimiento temprano">
+                    <div class="gallery-caption">Núcleo de trigo en establecimiento temprano. Diversidad en vigor inicial.</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="parcelas_nucleo_bacterias.webp" alt="Ensayo parcelas núcleo">
+                    <div class="gallery-caption">Ensayo de núcleo activo. Parcelas con variabilidad contrastante en arquitectura foliar.</div>
                 </div>
             </div>
         </div>
